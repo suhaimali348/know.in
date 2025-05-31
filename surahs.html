@@ -2,37 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quran Surah & Ayah Viewer</title>
-  <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="images/man.png" type="image/png" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 700px;
-      margin: 30px auto;
+      margin: 0;
       padding: 0 15px 40px;
       background: #f9f9f9;
       color: #222;
       line-height: 1.6;
       user-select: none;
-      transition: background 0.4s, color 0.4s;
-    }
-    body.dark {
-      background: #1a1a1a;
-      color: #eee;
+      max-width: 700px;
+      margin: 30px auto;
     }
     h1 {
       text-align: center;
       margin-bottom: 25px;
       font-weight: 700;
       color: #2c3e50;
-    }
-    body.dark h1, body.dark h2 {
-      color: #fff;
     }
     h2 {
       color: #34495e;
@@ -45,7 +35,6 @@
       display: flex;
       gap: 10px;
       margin-bottom: 25px;
-      flex-wrap: wrap;
     }
     #backBtn, #exitBtn {
       display: none;
@@ -62,7 +51,6 @@
     #backBtn:hover { background: #c0392b; }
     #exitBtn { background: #7f8c8d; color: #fff; }
     #exitBtn:hover { background: #606d71; }
-
     ul.surah-list {
       list-style: none;
       padding: 0;
@@ -77,9 +65,6 @@
       padding: 14px 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: box-shadow 0.3s ease, transform 0.2s ease;
-    }
-    body.dark ul.surah-list li {
-      background: #2b2b2b;
     }
     ul.surah-list li:hover {
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
@@ -103,51 +88,63 @@
       margin-bottom: 14px;
       padding: 14px 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
     }
-    body.dark ul.ayah-list li {
-      background: #2b2b2b;
+    ul.ayah-list li:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     }
     ul.ayah-list li strong {
       color: #2c3e50;
+      margin-bottom: 6px;
     }
-    ul.ayah-list li audio {
-      margin-top: 10px;
-      width: 100%;
-    }
-    ul.ayah-list li button {
+    ul.ayah-list li a {
+      align-self: flex-start;
       margin-top: 8px;
-      padding: 6px 12px;
-      background: #25d366;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #2980b9;
+      text-decoration: underline;
       cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    ul.ayah-list li a:hover {
+      color: #1c5980;
     }
     #content p {
       background: #fff;
       border-radius: 8px;
       padding: 20px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
       font-size: 1.15rem;
       color: #34495e;
+      user-select: text;
     }
-    body.dark #content p {
-      background: #2b2b2b;
-      color: #eee;
+    .malay-text {
+      font-size: 1rem;
+      color: #2c3e50;
+      margin-top: 8px;
+      font-style: italic;
     }
     @media (max-width: 480px) {
-      body { padding: 0 10px 30px; }
-      ul.surah-list { grid-template-columns: 1fr; }
+      body {
+        padding: 0 10px 30px;
+      }
+      ul.surah-list {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+
   <h1>Quran Surah & Ayah Viewer</h1>
+
   <div id="navButtons">
     <div id="backBtn">&larr; Back</div>
     <div id="exitBtn">Exit</div>
   </div>
-  <audio id="bismillah" src="https://cdn.islamic.network/audio/bismillah.mp3" preload="auto"></audio>
-  <div id="content"><p>Loading...</p></div>
+
+  <div id="content"></div>
 
   <script>
     const apiBase = 'https://api.alquran.cloud/v1';
@@ -160,76 +157,79 @@
       exitBtn.style.display = show ? 'block' : 'none';
     }
 
-    function loadSurahList() {
+    async function loadSurahList() {
       showNavButtons(false);
       contentDiv.innerHTML = '<p>Loading Surahs...</p>';
-      fetch(`${apiBase}/surah`)
-        .then(res => res.json())
-        .then(data => {
-          const surahs = data.data;
-          let html = '<h2>Select a Surah</h2><ul class="surah-list">';
-          surahs.forEach(surah => {
-            html += `<li><a href="#surah-${surah.number}">${surah.number}. ${surah.englishName} (${surah.name})</a></li>`;
-          });
-          html += '</ul>';
-          contentDiv.innerHTML = html;
-        });
-    }
-
-    function loadSurah(num) {
-      showNavButtons(true);
-      document.getElementById('bismillah').play().catch(() => {});
-      contentDiv.innerHTML = `<p>Loading Surah ${num}...</p>`;
-      Promise.all([
-        fetch(`${apiBase}/surah/${num}/ar.alafasy`).then(res => res.json()),
-        fetch(`https://api.quran.com:443/v4/quran/translations/131?chapter_number=${num}`)
-          .then(res => res.json())
-          .catch(() => ({ data: [] }))
-      ]).then(([arabic, malay]) => {
-        const surah = arabic.data;
-        const malayData = malay.data;
-        let html = `<h2>${surah.englishName} (${surah.name})</h2><ul class="ayah-list">`;
-        surah.ayahs.forEach((ayah, idx) => {
-          const malayText = malayData[idx]?.text || 'മലയാളം വിവർത്തനം ലഭ്യമല്ല.';
-          html += `<li>
-            <strong>Ayah ${ayah.numberInSurah}</strong>
-            <p>${ayah.text}</p>
-            <p><em>Malayalam:</em> ${malayText}</p>
-            <audio controls src="${ayah.audio}"></audio>
-            <button onclick="shareAyah('${ayah.text.replace(/'/g, "\\'")}')">📤 Share on WhatsApp</button>
-          </li>`;
-        });
-        html += '</ul>';
-        contentDiv.innerHTML = html;
+      const res = await fetch(`${apiBase}/surah`);
+      const data = await res.json();
+      if (data.code !== 200) {
+        contentDiv.innerHTML = 'Failed to load Surah list.';
+        return;
+      }
+      const surahs = data.data;
+      let html = '<h2>Select a Surah</h2><ul class="surah-list">';
+      surahs.forEach(surah => {
+        html += `<li><a href="#surah-${surah.number}">${surah.number}. ${surah.englishName} (${surah.name})</a></li>`;
       });
+      html += '</ul>';
+      contentDiv.innerHTML = html;
     }
 
-    function shareAyah(text) {
-      const msg = encodeURIComponent(text + "\n\n📖 Quran Viewer");
-      const url = `https://wa.me/?text=${msg}`;
-      window.open(url, '_blank');
+    async function loadMalayalam(surahNumber) {
+      try {
+        const res = await fetch(`https://api.quran.com:443/v4/quran/translations/131?chapter_number=${surahNumber}`);
+        const json = await res.json();
+        return json.translations;
+      } catch {
+        return [];
+      }
     }
 
-    function loadAyah(surah, ayah) {
+    async function loadSurah(surahNumber) {
       showNavButtons(true);
-      contentDiv.innerHTML = `<p>Loading Ayah ${ayah}...</p>`;
-      fetch(`${apiBase}/ayah/${surah}:${ayah}/ar.alafasy`)
-        .then(res => res.json())
-        .then(data => {
-          const a = data.data;
-          contentDiv.innerHTML = `
-            <h2>Surah ${a.surah.englishName} (${a.surah.name})</h2>
-            <p><strong>Ayah ${a.numberInSurah}:</strong> ${a.text}</p>
-            <audio controls src="${a.audio}"></audio>
-            <button onclick="shareAyah('${a.text.replace(/'/g, "\\'")}')">📤 Share on WhatsApp</button>
-          `;
-        });
+      contentDiv.innerHTML = `<p>Loading Surah ${surahNumber}...</p>`;
+      const res = await fetch(`${apiBase}/surah/${surahNumber}`);
+      const data = await res.json();
+      if (data.code !== 200) {
+        contentDiv.innerHTML = 'Failed to load Surah data.';
+        return;
+      }
+      const malayData = await loadMalayalam(surahNumber);
+      const surah = data.data;
+      let html = `<h2>${surah.englishName} (${surah.name})</h2><ul class="ayah-list">`;
+      surah.ayahs.forEach((ayah, idx) => {
+        const malayText = malayData[idx]?.text;
+        html += `<li><strong>Ayah ${ayah.numberInSurah}:</strong> ${ayah.text}`;
+        if (malayText) html += `<div class="malay-text">${malayText}</div>`;
+        html += `<a href="#surah-${surahNumber}-ayah-${ayah.numberInSurah}">View Only This Ayah</a></li>`;
+      });
+      html += '</ul>';
+      contentDiv.innerHTML = html;
+    }
+
+    async function loadAyah(surahNumber, ayahNumber) {
+      showNavButtons(true);
+      contentDiv.innerHTML = `<p>Loading Ayah ${ayahNumber} of Surah ${surahNumber}...</p>`;
+      const res = await fetch(`${apiBase}/ayah/${surahNumber}:${ayahNumber}`);
+      const data = await res.json();
+      if (data.code !== 200) {
+        contentDiv.innerHTML = 'Failed to load Ayah.';
+        return;
+      }
+      const ayah = data.data;
+      const malayData = await loadMalayalam(surahNumber);
+      const malayText = malayData[ayah.numberInSurah - 1]?.text;
+      let html = `<h2>Surah ${ayah.surah.englishName} (${ayah.surah.name})</h2>`;
+      html += `<p><strong>Ayah ${ayah.numberInSurah}:</strong> ${ayah.text}`;
+      if (malayText) html += `<div class="malay-text">${malayText}</div>`;
+      html += `</p>`;
+      contentDiv.innerHTML = html;
     }
 
     backBtn.onclick = () => {
-      if(location.hash.startsWith('#surah-') && location.hash.split('-').length === 2) {
+      if (location.hash.startsWith('#surah-') && location.hash.split('-').length === 2) {
         location.hash = '';
-      } else if(location.hash.startsWith('#surah-') && location.hash.split('-').length === 4) {
+      } else if (location.hash.startsWith('#surah-') && location.hash.split('-').length === 4) {
         const surahNumber = location.hash.split('-')[1];
         location.hash = `#surah-${surahNumber}`;
       } else {
@@ -243,12 +243,16 @@
 
     function router() {
       const hash = location.hash;
-      if (!hash) loadSurahList();
-      else if (/^#surah-\d+$/.test(hash)) {
-        loadSurah(hash.split('-')[1]);
+      if (!hash || hash === '') {
+        loadSurahList();
+      } else if (/^#surah-\d+$/.test(hash)) {
+        const surahNumber = hash.split('-')[1];
+        loadSurah(surahNumber);
       } else if (/^#surah-\d+-ayah-\d+$/.test(hash)) {
         const parts = hash.split('-');
-        loadAyah(parts[1], parts[3]);
+        const surahNumber = parts[1];
+        const ayahNumber = parts[3];
+        loadAyah(surahNumber, ayahNumber);
       } else {
         contentDiv.innerHTML = 'Invalid URL';
       }
@@ -256,18 +260,8 @@
 
     window.addEventListener('hashchange', router);
     router();
-
-    // Dark mode detection
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark');
-    }
-
-    // PWA Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
   </script>
+
 </body>
 </html>
 
-  
