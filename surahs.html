@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quran Surah & Ayah Viewer</title>
+    <link rel="icon" href="../quran/images/man.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 15px 40px;
+      background: #f9f9f9;
+      color: #222;
+      line-height: 1.6;
+      user-select: none;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    h2 {
+      color: #34495e;
+      margin-bottom: 15px;
+      font-weight: 600;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 8px;
+    }
+
+    #navButtons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    #backBtn, #exitBtn {
+      display: none;
+      padding: 8px 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      width: fit-content;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #backBtn {
+      background: #e74c3c;
+      color: #fff;
+    }
+    #backBtn:hover {
+      background: #c0392b;
+    }
+
+    #exitBtn {
+      background: #7f8c8d;
+      color: #fff;
+    }
+    #exitBtn:hover {
+      background: #606d71;
+    }
+
+    ul.surah-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+    ul.surah-list li {
+      background: #fff;
+      border-radius: 8px;
+      padding: 14px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    ul.surah-list li:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      transform: translateY(-3px);
+    }
+    ul.surah-list li a {
+      text-decoration: none;
+      color: #2980b9;
+      font-weight: 600;
+      display: block;
+      font-size: 1rem;
+    }
+
+    ul.ayah-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.ayah-list li {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      padding: 14px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    ul.ayah-list li:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+    ul.ayah-list li strong {
+      color: #2c3e50;
+      margin-bottom: 6px;
+    }
+    ul.ayah-list li a {
+      align-self: flex-start;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #2980b9;
+      text-decoration: underline;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    ul.ayah-list li a:hover {
+      color: #1c5980;
+    }
+
+    #content p {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+      font-size: 1.15rem;
+      color: #34495e;
+      user-select: text;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0 10px 30px;
+      }
+      ul.surah-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Quran Surah & Ayah Viewer</h1>
+
+  <div id="navButtons">
+    <div id="backBtn">&larr; Back</div>
+    <div id="exitBtn">Exit</div>
+  </div>
+
+  <div id="content">
+    <!-- Dynamic content will load here -->
+  </div>
+
+  <script>
+    const apiBase = 'https://api.alquran.cloud/v1';
+    const contentDiv = document.getElementById('content');
+    const backBtn = document.getElementById('backBtn');
+    const exitBtn = document.getElementById('exitBtn');
+
+    function showNavButtons(show) {
+      backBtn.style.display = show ? 'block' : 'none';
+      exitBtn.style.display = show ? 'block' : 'none';
+    }
+
+    function loadSurahList() {
+      showNavButtons(false);
+      contentDiv.innerHTML = '<p>Loading Surahs...</p>';
+      fetch(`${apiBase}/surah`)
+        .then(res => res.json())
+        .then(data => {
+          if(data.code !== 200) {
+            contentDiv.innerHTML = 'Failed to load Surah list.';
+            return;
+          }
+          const surahs = data.data;
+          let html = '<h2>Select a Surah</h2><ul class="surah-list">';
+          surahs.forEach(surah => {
+            html += `<li><a href="#surah-${surah.number}">${surah.number}. ${surah.englishName} (${surah.name})</a></li>`;
+          });
+          html += '</ul>';
+          contentDiv.innerHTML = html;
+        });
+    }
+
+    function loadSurah(surahNumber) {
+      showNavButtons(true);
+      contentDiv.innerHTML = `<p>Loading Surah ${surahNumber}...</p>`;
+      fetch(`${apiBase}/surah/${surahNumber}/ar.alafasy`)
+        .then(res => res.json())
+        .then(data => {
+          if(data.code !== 200) {
+            contentDiv.innerHTML = 'Failed to load Surah data.';
+            return;
+          }
+          const surah = data.data;
+          let html = `<h2>${surah.englishName} (${surah.name})</h2><ul class="ayah-list">`;
+          surah.ayahs.forEach(ayah => {
+            html += `<li><strong>Ayah ${ayah.numberInSurah}:</strong> ${ayah.text} <a href="#surah-${surahNumber}-ayah-${ayah.numberInSurah}">View Only This Ayah</a></li>`;
+          });
+          html += '</ul>';
+          contentDiv.innerHTML = html;
+        });
+    }
+
+    function loadAyah(surahNumber, ayahNumber) {
+      showNavButtons(true);
+      contentDiv.innerHTML = `<p>Loading Ayah ${ayahNumber} of Surah ${surahNumber}...</p>`;
+      fetch(`${apiBase}/ayah/${surahNumber}:${ayahNumber}/ar.alafasy`)
+        .then(res => res.json())
+        .then(data => {
+          if(data.code !== 200) {
+            contentDiv.innerHTML = 'Failed to load Ayah.';
+            return;
+          }
+          const ayah = data.data;
+          let html = `<h2>Surah ${ayah.surah.englishName} (${ayah.surah.name})</h2>`;
+          html += `<p><strong>Ayah ${ayah.numberInSurah}:</strong> ${ayah.text}</p>`;
+          contentDiv.innerHTML = html;
+        });
+    }
+
+    backBtn.onclick = () => {
+      if(location.hash.startsWith('#surah-') && location.hash.split('-').length === 2) {
+        location.hash = '';
+      } else if(location.hash.startsWith('#surah-') && location.hash.split('-').length === 4) {
+        const surahNumber = location.hash.split('-')[1];
+        location.hash = `#surah-${surahNumber}`;
+      } else {
+        location.hash = '';
+      }
+    };
+
+    // Modified Exit Button: Redirects to index.html
+    exitBtn.onclick = () => {
+      window.location.href = 'index.html';
+    };
+
+    function router() {
+      const hash = location.hash;
+
+      if(!hash || hash === '') {
+        loadSurahList();
+      }
+      else if(/^#surah-\d+$/.test(hash)) {
+        const surahNumber = hash.split('-')[1];
+        loadSurah(surahNumber);
+      }
+      else if(/^#surah-\d+-ayah-\d+$/.test(hash)) {
+        const parts = hash.split('-');
+        const surahNumber = parts[1];
+        const ayahNumber = parts[3];
+        loadAyah(surahNumber, ayahNumber);
+      }
+      else {
+        contentDiv.innerHTML = 'Invalid URL';
+      }
+    }
+
+    window.addEventListener('hashchange', router);
+
+    router();
+  </script>
+
+</body>
+</html>

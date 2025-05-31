@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surah Audio Player (1–114)</title>
+    <link rel="icon" href="../quran/images/man.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom animations */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .surah-box {
+      animation: slideIn 0.5s ease-out forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .surah-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    audio::-webkit-media-controls-panel {
+      background-color: #e5e7eb;
+      border-radius: 8px;
+    }
+
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-volume-slider,
+    audio::-webkit-media-controls-timeline {
+      filter: brightness(1.1);
+    }
+
+    /* Custom scrollbar */
+    .scroll-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 4px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+
+    /* Search input animation */
+    .search-container input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+  <header class="bg-gray-800 text-white py-6 text-center">
+    <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Surah Audio Player (1–114)</h1>
+    <div class="search-container mt-4 max-w-md mx-auto relative">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Surah..."
+        class="w-full px-4 py-2 pl-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
+      />
+      <svg
+        class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        ></path>
+      </svg>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="scroll-wrapper max-h-[80vh] overflow-y-auto pr-2">
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">1. Al-Fatiha</div>
+        <audio controls class="w-full"><source src="udio/Q001 - Al Fattiha.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">2. Al-Baqarah</div>
+        <audio controls class="w-full"><source src="udio/Q002_1 - Al Baqarah (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">3. Aal-E-Imran</div>
+        <audio controls class="w-full"><source src="udio/Q003 - Aal-Imran (2).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">4. An-Nisa</div>
+        <audio controls class="w-full"><source src="udio/Q004 - An-Nisa'.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">5. Al-Ma’idah</div>
+        <audio controls class="w-full"><source src="udio/- Al Ma'eda.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">6. Al-An'am</div>
+        <audio controls class="w-full"><source src="udio/Q006_Al_Anam (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">7. Al-A'raf</div>
+        <audio controls class="w-full"><source src="udio/Q007 - Al A'raf (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">8. Al-Anfal</div>
+        <audio controls class="w-full"><source src="udio/Q008 - Al Anfal (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">9. At-Tawbah</div>
+        <audio controls class="w-full"><source src="udio/Q009 - At-Touba.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">10. Yunus</div>
+        <audio controls class="w-full"><source src="udio/Q010 - Yunus.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">11. Hud</div>
+        <audio controls class="w-full"><source src="udio/Q011 - Hud.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">12. Yusuf</div>
+        <audio controls class="w-full"><source src="udio/Q012 - Yusuf.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">13. Ar-Ra'd</div>
+        <audio controls class="w-full"><source src="udio/Q013 - Ar-Ra'ad.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">14. Ibrahim</div>
+        <audio controls class="w-full"><source src="udio/14.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">15. Al-Hijr</div>
+        <audio controls class="w-full"><source src="udio/Q015 - Al-Hijr (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">16. An-Nahl</div>
+        <audio controls class="w-full"><source src="udio/Q016 - An-Nahl.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">17. Al-Isra</div>
+        <audio controls class="w-full"><source src="udio/Q017 - Al-Isra' (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">18. Al-Kahf</div>
+        <audio controls class="w-full"><source src="udio/Q018 - Al Kahf (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">19. Maryam</div>
+        <audio controls class="w-full"><source src="udio/Q019 - Maryam.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">20. Taha</div>
+        <audio controls class="w-full"><source src="udio/Q020_Taha.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">21. Al-Anbiya</div>
+        <audio controls class="w-full"><source src="udio/Anbiya.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">22. Al-Hajj</div>
+        <audio controls class="w-full"><source src="udio/Q022_Al_Hajj (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">23. Al-Mu’minun</div>
+        <audio controls class="w-full"><source src="udio/Q023_Al_Muminoom.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">24. An-Nur</div>
+        <audio controls class="w-full"><source src="udio/Q024_An_Nur.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">25. Al-Furqan</div>
+        <audio controls class="w-full"><source src="udio/Surah 25 Al Furqan Malayalam translation - Islam Malayalam.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">26. Ash-Shu'ara</div>
+        <audio controls class="w-full"><source src="udio/Q026_Ash_Shuara.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">27. An-Naml</div>
+        <audio controls class="w-full"><source src="udio/27.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">28. Al-Qasas</div>
+        <audio controls class="w-full"><source src="udio/Q028_Al_Qasas.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">29. Al-Ankabut</div>
+        <audio controls class="w-full"><source src="udio/Q029_Al_Ankaboot (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">30. Ar-Rum</div>
+        <audio controls class="w-full"><source src="udio/Q030_Ar_Rum.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">31. Luqman</div>
+        <audio controls class="w-full"><source src="udio/Q031 - Luqman.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">32. As-Sajdah</div>
+        <audio controls class="w-full"><source src="udio/Q032 - As-Sajada.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">33. Al-Ahzab</div>
+        <audio controls class="w-full"><source src="udio/Q033 - Al-Ahzab.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">34. Saba</div>
+        <audio controls class="w-full"><source src="udio/Q034 - Saba'.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">35. Fatir</div>
+        <audio controls class="w-full"><source src="udio/Q035 - Fatir.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">36. Ya-Sin</div>
+        <audio controls class="w-full"><source src="udio/Q036 - Yasin (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">37. As-Saffat</div>
+        <audio controls class="w-full"><source src="udio/Q037 - As-Saffat.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">38. Sad</div>
+        <audio controls class="w-full"><source src="udio/Q038 - Sad.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">39. Az-Zumar</div>
+        <audio controls class="w-full"><source src="udio/Q039 - Az-Zumar.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">40. Ghafir</div>
+        <audio controls class="w-full"><source src="udio/Q040 - Ghafir.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">41. Fussilat</div>
+        <audio controls class="w-full"><source src="udio/Q041 - Fussilat.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">42. Ash-Shura</div>
+        <audio controls class="w-full"><source src="udio/Q042 - Ash-Shura.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">43. Az-Zukhruf</div>
+        <audio controls class="w-full"><source src="udio/Q043 Az-Zukuruf.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">44. Ad-Dukhan</div>
+        <audio controls class="w-full"><source src="udio/Q044- Adh-Dhukhan (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">45. Al-Jathiyah</div>
+        <audio controls class="w-full"><source src="udio/Q045 - Al Jathiya (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">46. Al-Ahqaf</div>
+        <audio controls class="w-full"><source src="udio/Q046 - Al Ahqaf (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">47. Muhammad</div>
+        <audio controls class="w-full"><source src="udio/47.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">48. Al-Fath</div>
+        <audio controls class="w-full"><source src="udio/Q048 - Al Fathah (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">49. Al-Hujurat</div>
+        <audio controls class="w-full"><source src="udio/Q049 - Al Hujurat (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">50. Qaf</div>
+        <audio controls class="w-full"><source src="udio/Q050 - Qaf.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">51. Adh-Dhariyat</div>
+        <audio controls class="w-full"><source src="udio/Q051 - Adh-Dhariyat.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">52. At-Tur</div>
+        <audio controls class="w-full"><source src="udio/Q052 - At-Tur.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">53. An-Najm</div>
+        <audio controls class="w-full"><source src="udio/Q053 - Al Najm.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">54. Al-Qamar</div>
+        <audio controls class="w-full"><source src="udio/Q054 - Al Qamar.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">55. Ar-Rahman</div>
+        <audio controls class="w-full"><source src="udio/Q055 - Ar-Rahman.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">56. Al-Waqi'ah</div>
+        <audio controls class="w-full"><source src="udio/Q056 - Al Waqia'.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">57. Al-Hadid</div>
+        <audio controls class="w-full"><source src="udio/Q057 - Al Hadeeth.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">58. Al-Mujadilah</div>
+        <audio controls class="w-full"><source src="udio/Q058 - Al Mujadillah.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">59. Al-Hashr</div>
+        <audio controls class="w-full"><source src="udio/Q059 - Al Hashr (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">60. Al-Mumtahanah</div>
+        <audio controls class="w-full"><source src="udio/Q060 - Al-Mumthahana.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">61. As-Saff</div>
+        <audio controls class="w-full"><source src="udio/Q061 - As-Saff.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">62. Al-Jumu'ah</div>
+        <audio controls class="w-full"><source src="udio/Q062 - Al Juma' (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">63. Al-Munafiqun</div>
+        <audio controls class="w-full"><source src="udio/Q063 - Al Munafiqoon.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">64. At-Taghabun</div>
+        <audio controls class="w-full"><source src="udio/Q064 - At-Tagabun.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">65. At-Talaq</div>
+        <audio controls class="w-full"><source src="udio/Q065 - At-Talaq.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">66. At-Tahrim</div>
+        <audio controls class="w-full"><source src="udio/Q066 - At-Tahrim.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">67. Al-Mulk</div>
+        <audio controls class="w-full"><source src="udio/Q067 - Al Mulk.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">68. Al-Qalam</div>
+        <audio controls class="w-full"><source src="udio/Q068 - Al Qalam.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">69. Al-Haqqah</div>
+        <audio controls class="w-full"><source src="udio/Q069 - Al Haqa (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">70. Al-Ma'arij</div>
+        <audio controls class="w-full"><source src="udio/Q070 - Al Ma'arij (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">71. Nuh</div>
+        <audio controls class="w-full"><source src="udio/Q071 - Nooh.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">72. Al-Jinn</div>
+        <audio controls class="w-full"><source src="udio/Q072 - Al Jinn (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white tov rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">73. Al-Muzzammil</div>
+        <audio controls class="w-full"><source src="udio/Q073 - Al Muzzammil.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">74. Al-Muddaththir</div>
+        <audio controls class="w-full"><source src="udio/74.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">75. Al-Qiyamah</div>
+        <audio controls class="w-full"><source src="udio/Q075 - Al Qiyama.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">76. Al-Insan</div>
+        <audio controls class="w-full"><source src="udio/Q076 - Al Insan (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">77. Al-Mursalat</div>
+        <audio controls class="w-full"><source src="udio/Q077 - Al Mursalat (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">78. An-Naba</div>
+        <audio controls class="w-full"><source src="udio/Q078 - An-Naba'.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">79. An-Nazi'at</div>
+        <audio controls class="w-full"><source src="udio/Q079 - An-Naasi'at.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">80. 'Abasa</div>
+        <audio controls class="w-full"><source src="udio/Q080 - Abasa (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">81. At-Takwir</div>
+        <audio controls class="w-full"><source src="udio/Q081 - At-Takweer.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">82. Al-Infitar</div>
+        <audio controls class="w-full"><source src="udio/Q082 - Al Infitar (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">83. Al-Mutaffifin</div>
+        <audio controls class="w-full"><source src="udio/Q083 - Al Muthaffiffeen (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">84. Al-Inshiqaq</div>
+        <audio controls class="w-full"><source src="udio/Q084 - Al Inshiqaq (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">85. Al-Buruj</div>
+        <audio controls class="w-full"><source src="udio/Q085 - Al Burooj (2).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">86. At-Tariq</div>
+        <audio controls class="w-full"><source src="udio/Q086 At-Tariq.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">87. Al-A'la</div>
+        <audio controls class="w-full"><source src="udio/Q087 - Al A'la (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">88. Al-Ghashiyah</div>
+        <audio controls class="w-full"><source src="udio/Q088 - Al Ghashiya (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">89. Al-Fajr</div>
+        <audio controls class="w-full"><source src="udio/Q089 - Al Fajr (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">90. Al-Balad</div>
+        <audio controls class="w-full"><source src="udio/Q090 - Al Balad (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">91. Ash-Shams</div>
+        <audio controls class="w-full"><source src="udio/Q091 - Ash-Shams.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">92. Al-Layl</div>
+        <audio controls class="w-full"><source src="udio/Q092 - Al-Lail (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">93. Ad-Duha</div>
+        <audio controls class="w-full"><source src="udio/93.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">94. Ash-Sharh</div>
+        <audio controls class="w-full"><source src="udio/Q094 - Ash-Sharh.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">95. At-Tin</div>
+        <audio controls class="w-full"><source src="udio/Q095 - At-Tin.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">96. Al-'Alaq</div>
+        <audio controls class="w-full"><source src="udio/Q096 - Al Alaq (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">97. Al-Qadr</div>
+        <audio controls class="w-full"><source src="udio/Q097 - Al Qadr.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">98. Al-Bayyinah</div>
+        <audio controls class="w-full"><source src="udio/Q098 - Al Bayyinah (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">99. Az-Zalzalah</div>
+        <audio controls class="w-full"><source src="udio/Q099 - Al Zalzalah.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">100. Al-'Adiyat</div>
+        <audio controls class="w-full"><source src="udio/Q100 Al- Adhiyat (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">101. Al-Qari'ah</div>
+        <audio controls class="w-full"><source src="udio/Q101 - Al Qaria'.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">102. At-Takathur</div>
+        <audio controls class="w-full"><source src="udio/Q102 - At-Takazur.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">103. Al-'Asr</div>
+        <audio controls class="w-full"><source src="udio/Q103 - Al-Asr (1).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">104. Al-Humazah</div>
+        <audio controls class="w-full"><source src="udio/Al Humaza.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">105. Al-Fil</div>
+        <audio controls class="w-full"><source src="udio/fill.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">106. Quraysh</div>
+        <audio controls class="w-full"><source src="udio/Q106 - Quraish.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">107. Al-Ma'un</div>
+        <audio controls class="w-full"><source src="udio/107.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">108. Al-Kawthar</div>
+        <audio controls class="w-full"><source src="udio/Al Kouthar.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">109. Al-Kafirun</div>
+        <audio controls class="w-full"><source src="udio/Al Kafiroon.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">110. An-Nasr</div>
+        <audio controls class="w-full"><source src="udio/110.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">111. Al-Masad</div>
+        <audio controls class="w-full"><source src="udio/Al Masad.mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">112. Al-Ikhlas</div>
+        <audio controls class="w-full"><source src="udio/Q112 - Al Ikhlas (3).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">113. Al-Falaq</div>
+        <audio controls class="w-full"><source src="udio/Q113 - Al-Falaq (2).mp3" type="audio/mpeg"></audio>
+      </div>
+      <div class="surah-box bg-white rounded-lg shadow-md mb-4 p-4 md:p-6">
+        <div class="surah-title text-lg md:text-xl font-semibold text-blue-600 mb-3">114. An-Nas</div>
+        <audio controls class="w-full"><source src="udio/Q114 - Nass.mp3" type="audio/mpeg"></audio>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const surahBoxes = document.querySelectorAll('.surah-box');
+
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.trim().toLowerCase();
+
+      surahBoxes.forEach(box => {
+        const surahTitle = box.querySelector('.surah-title').textContent.toLowerCase();
+        if (searchTerm === '' || surahTitle.includes(searchTerm)) {
+          box.style.display = 'block';
+          box.style.animation = 'slideIn 0.5s ease-out forwards';
+        } else {
+          box.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

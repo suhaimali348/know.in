@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qibla Finder </title>    <link rel="icon" href="../quran/images/man.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #f7f7f7 0%, #e0e7ff 100%);
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 380px;
+      width: 90vw;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1a3c34;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #status {
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #666;
+      min-height: 1rem;
+    }
+
+    .compass {
+      position: relative;
+      margin: 0 auto 20px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: #f9f9f9;
+      box-shadow: 
+        inset 0 0 12px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.15);
+      perspective: 1000px;
+      overflow: hidden;
+    }
+
+    .compass::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #4a8076 0deg 2deg, transparent 2deg 45deg,
+        #4a8076 45deg 47deg, transparent 47deg 90deg,
+        #4a8076 90deg 92deg, transparent 92deg 135deg,
+        #4a8076 135deg 137deg, transparent 137deg 180deg,
+        #4a8076 180deg 182deg, transparent 182deg 225deg,
+        #4a8076 225deg 227deg, transparent 227deg 270deg,
+        #4a8076 270deg 272deg, transparent 272deg 315deg,
+        #4a8076 315deg 317deg, transparent 317deg 360deg
+      );
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+    }
+
+    .compass .direction {
+      position: absolute;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #4a8076;
+      text-shadow: 0 0 4px rgba(74, 128, 118, 0.5);
+      user-select: none;
+    }
+
+    .compass .direction.n { top: 12px; left: 50%; transform: translateX(-50%); }
+    .compass .direction.e { top: 50%; right: 12px; transform: translateY(-50%); }
+    .compass .direction.s { bottom: 12px; left: 50%; transform: translateX(-50%); }
+    .compass .direction.w { top: 50%; left: 12px; transform: translateY(-50%); }
+
+    .qibla-marker {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #d4a017;
+      text-shadow: 0 0 4px rgba(212, 160, 23, 0.7);
+      user-select: none;
+      transform-origin: 50% 134px; /* Adjusted to position at compass edge */
+    }
+
+    .needle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 130px;
+      background: linear-gradient(180deg, #4a8076 0%, #2e5b52 100%);
+      border-radius: 4px 4px 2px 2px;
+      transform-origin: 50% 85%;
+      transform: translate(-50%, -85%) rotate(0deg);
+      filter: drop-shadow(0 0 4px rgba(74, 128, 118, 0.5));
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    .needle-base {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #4a8076 0%, #2e5b52 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(74, 128, 118, 0.5);
+      z-index: 11;
+    }
+
+    #qiblaDegree {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 8px 0;
+      color: #d4a017;
+      text-shadow: 0 0 4px rgba(212, 160, 23, 0.5);
+      user-select: none;
+    }
+
+    #instruction {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    button#locateBtn {
+      margin-top: 16px;
+      padding: 10px 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      background: #4a8076;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(74, 128, 118, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button#locateBtn:hover {
+      background: #3a665d;
+      transform: translateY(-2px);
+    }
+
+    button#locateBtn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        padding: 20px;
+      }
+      .compass {
+        width: 220px;
+        height: 220px;
+      }
+      .needle {
+        height: 100px;
+        width: 6px;
+      }
+      .qibla-marker {
+        transform-origin: 50% 104px;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      #qiblaDegree {
+        font-size: 1rem;
+      }
+      #instruction {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Qibla Finder">
+    <h1>Qibla Finder</h1>
+    <div class="compass" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
+      <div class="direction n" aria-hidden="true">N</div>
+      <div class="direction e" aria-hidden="true">E</div>
+      <div class="direction s" aria-hidden="true">S</div>
+      <div class="direction w" aria-hidden="true">W</div>
+      <div class="qibla-marker" id="qiblaMarker" aria-hidden="true">🕋</div>
+      <div class="needle" id="needle" role="img" aria-label="Compass needle pointing to Qibla direction"></div>
+      <div class="needle-base"></div>
+    </div>
+    <div id="qiblaDegree" aria-live="polite" aria-atomic="true">Calculating...</div>
+    <div id="status" role="alert"></div>
+    <button id="locateBtn" aria-describedby="instruction">Find Qibla</button>
+    <div id="instruction">Tap to allow location access and find the Qibla direction.</div>
+  </div>
+
+  <script>
+    // Coordinates of Kaaba
+    const kaaba = { lat: 21.4225, lng: 39.8262 };
+
+    const needle = document.getElementById('needle');
+    const qiblaMarker = document.getElementById('qiblaMarker');
+    const qiblaDegreeElem = document.getElementById('qiblaDegree');
+    const statusElem = document.getElementById('status');
+    const locateBtn = document.getElementById('locateBtn');
+
+    // Calculate bearing between two points (in degrees)
+    function calculateQibla(lat, lng) {
+      const latRad = degreesToRadians(lat);
+      const lngRad = degreesToRadians(lng);
+      const kaabaLatRad = degreesToRadians(kaaba.lat);
+      const kaabaLngRad = degreesToRadians(kaaba.lng);
+
+      const deltaLng = kaabaLngRad - lngRad;
+
+      const x = Math.sin(deltaLng);
+      const y = Math.cos(latRad) * Math.tan(kaabaLatRad) - Math.sin(latRad) * Math.cos(deltaLng);
+
+      let bearing = Math.atan2(x, y);
+      bearing = radiansToDegrees(bearing);
+      bearing = (bearing + 360) % 360;
+
+      return bearing;
+    }
+
+    function degreesToRadians(deg) {
+      return deg * (Math.PI / 180);
+    }
+
+    function radiansToDegrees(rad) {
+      return rad * (180 / Math.PI);
+    }
+
+    // Rotate needle and Qibla marker
+    function rotateElements(degree) {
+      needle.style.transform = `translate(-50%, -85%) rotate(${degree}deg)`;
+      qiblaMarker.style.transform = `translateX(-50%) rotate(${degree}deg)`;
+    }
+
+    // Get user's location & update UI
+    function findQibla() {
+      if (!navigator.geolocation) {
+        statusElem.textContent = "Geolocation is not supported by your browser.";
+        qiblaDegreeElem.textContent = "";
+        return;
+      }
+      statusElem.textContent = "Locating...";
+      qiblaDegreeElem.textContent = "Calculating...";
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          const qiblaDeg = calculateQibla(latitude, longitude);
+
+          statusElem.textContent = `Location: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`;
+          qiblaDegreeElem.textContent = `Qibla: ${qiblaDeg.toFixed(1)}° from North`;
+
+          rotateElements(qiblaDeg);
+        },
+        error => {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              statusElem.textContent = "Please allow location access.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              statusElem.textContent = "Location unavailable.";
+              break;
+            case error.TIMEOUT:
+              statusElem.textContent = "Location request timed out.";
+              break;
+            default:
+              statusElem.textContent = "An error occurred.";
+          }
+          qiblaDegreeElem.textContent = "";
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+
+    locateBtn.addEventListener('click', findQibla);
+  </script>
+</body>
+</html>

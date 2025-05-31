@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Donate via UPI - Suhaim Soft</title>
+    <link rel="icon" href="../quran/images/man.png">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --primary-color: #1d4ed8;
+      --primary-hover: #3b82f6;
+      --secondary-gradient-start: #6366f1;
+      --secondary-gradient-end: #8b5cf6;
+      --secondary-hover-start: #4f46e5;
+      --secondary-hover-end: #7c3aed;
+      --success-gradient-start: #10b981;
+      --success-gradient-end: #059669;
+      --success-hover-start: #059669;
+      --success-hover-end: #047857;
+      --light-bg: #fdf2f8;
+      --light-bg2: #e0f2fe;
+      --text-dark: #1f2937;
+      --text-light: #64748b;
+      --border-color: #cbd5e1;
+      --white: #ffffff;
+      --error-color: #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--light-bg), var(--light-bg2));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background: var(--white);
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      animation: fadeIn 0.7s ease;
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--primary-hover);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px; /* Spacing between buttons if stacked */
+    }
+
+    .btn-donate {
+      background: linear-gradient(to right, var(--secondary-gradient-start), var(--secondary-gradient-end));
+    }
+    .btn-donate:hover {
+      background: linear-gradient(to right, var(--secondary-hover-start), var(--secondary-hover-end));
+      transform: translateY(-2px);
+    }
+
+    .note {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+
+    #payment-info-section {
+      margin-top: 24px;
+      display: none; /* Initially hidden */
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    #status-message {
+        font-size: 15px;
+        color: var(--text-dark);
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    #qr-code-container {
+        margin-bottom: 15px;
+    }
+    #qr-code {
+      width: 200px;
+      height: 200px;
+      margin: 10px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: block;
+    }
+
+    .upi-details p {
+        font-size: 14px;
+        color: var(--text-dark);
+        margin: 8px 0;
+    }
+    .upi-details strong {
+        color: var(--primary-color);
+    }
+
+    #download-bill {
+      background: linear-gradient(90deg, var(--success-gradient-start), var(--success-gradient-end));
+    }
+    #download-bill:hover {
+      background: linear-gradient(90deg, var(--success-hover-start), var(--success-hover-end));
+      transform: translateY(-2px);
+    }
+
+    #make-another-donation {
+      background: var(--text-light);
+    }
+    #make-another-donation:hover {
+      background: #4b5563; /* Darker gray */
+      transform: translateY(-2px);
+    }
+
+    .error-message {
+      color: var(--error-color);
+      font-size: 14px;
+      display: none;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 24px;
+      }
+      h2 {
+        font-size: 24px;
+      }
+      button {
+        font-size: 15px;
+        padding: 12px;
+      }
+      #qr-code {
+        width: 180px;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Donate via UPI</h2>
+
+    <div id="donation-form">
+      <div class="input-group">
+        <input id="amount" type="number" placeholder="Enter amount (₹)" min="1" />
+      </div>
+      <p id="error-message" class="error-message">Please enter a valid amount (minimum ₹1)</p>
+      <button class="btn-donate" onclick="initiatePayment()">Donate</button>
+
+    </div>
+
+    <div id="payment-info-section">
+      <p id="status-message"></p>
+      
+      <div id="qr-code-container" style="display: none;">
+        <p><strong>Scan to pay ₹<span id="qr-amount"></span></strong></p>
+        <img id="qr-code" src="" alt="UPI QR Code" />
+      </div>
+      
+      <div class="upi-details">
+        <p>Or pay using UPI ID: <strong>8891479505@fam</strong> (Suhaim Soft)</p>
+      </div>
+      
+      <button id="download-bill" onclick="generateBillPDF()">Download Receipt</button>
+      <button id="make-another-donation" onclick="resetForm()">Make Another Donation</button>
+      <p class="note">This receipt is for your records. Payment confirmation is subject to bank processing.</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const UPI_ID = "8891479505@fam";
+    const PAYEE_NAME = "Suhaim Soft";
+    const TRANSACTION_NOTE = "Donation to Suhaim Soft";
+    // Favicon image as base64 (replace with your actual favicon's base64 if different)
+    // You can generate this from an online base64 image encoder
+    const LOGO_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGpSURBVDhPpZJNTsNQFIU/k4SkVo9N0+AIHCCxCRdACVuDC8ACCwixuHEBHABHSMkJFCBJiYQmVElNCJQlp0pVWZpsjC9l+M9/zJk5Y/xXfOe5J9gWZGEDHrCC//oKPAAGuEYNnOABjdgLXLf9fQE7uIk/wA8dYIfbN1D+AG+15nKRKo03YAsuMkEF+MAJ9nqYn8EKNmCr29ikMCT2v0EEvMARXkEFfOENXpD9530FmGAmZ3YVYIGfNCG1Yy4x9x07kC/AVrF5qZJGzNIIq0WjWB33yQhYxQdsoYR75lCEWk9F5hp+QzVd2mZJk7K5tP3Kq1/19NqHlXzEIA7nGYFq88mvygQZg0t0A7oAu/hV9Rxd9tE0sSCQvIQh8wRTSDW/rPBFJmEj0x2D4H2Z+pX9UfWEYW0c3c2sqwG8fWJE55zQ4f9B2H1rNwt7809yE3xPBYWwF3fTKVB9LNNG1x3f4v9jT2OrXPEB73bLck80L8z08P7YjccC2iS3yCDyY277eM96yGz19sg+F33iP5u7fdt6x+H/wEc8BqPuuU3iAAAAAElFTkSuQmCC";
+
+
+    let currentAmount = 0;
+
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function initiatePayment() {
+      const amountInput = document.getElementById('amount');
+      const errorMessage = document.getElementById('error-message');
+      currentAmount = parseFloat(amountInput.value);
+
+      if (isNaN(currentAmount) || currentAmount < 1) {
+        errorMessage.textContent = 'Please enter a valid amount (minimum ₹1)';
+        errorMessage.style.display = 'block';
+        amountInput.focus();
+        return;
+      }
+      errorMessage.style.display = 'none';
+
+      document.getElementById('donation-form').style.display = 'none';
+      document.getElementById('payment-info-section').style.display = 'block';
+      
+      const statusMessage = document.getElementById('status-message');
+      const qrAmountSpan = document.getElementById('qr-amount');
+      const qrCodeImg = document.getElementById('qr-code');
+      const qrCodeContainer = document.getElementById('qr-code-container');
+
+      const upiPayUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&tn=${encodeURIComponent(TRANSACTION_NOTE)}&am=${currentAmount.toFixed(2)}&cu=INR`;
+
+      if (isMobile()) {
+        statusMessage.textContent = `Attempting to open your UPI app for ₹${currentAmount.toFixed(2)}...`;
+        // On mobile, we don't strictly need to show QR initially, but it's a good fallback
+        // Or you can choose to hide it if redirect is the primary goal
+        qrCodeContainer.style.display = 'none'; // Hide QR by default on mobile during redirect attempt
+        
+        // Try to redirect
+        window.location.href = upiPayUrl;
+        
+        // After attempting redirect, offer QR as fallback or if user returns without paying
+        // This part is tricky as page might lose context or user might not return immediately
+        // For simplicity, we'll just keep the payment section open.
+        // You could add a small delay then show QR if needed.
+        
+      } else { // Desktop
+        statusMessage.textContent = `Scan QR or use UPI ID to pay ₹${currentAmount.toFixed(2)}`;
+        qrAmountSpan.textContent = currentAmount.toFixed(2);
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiPayUrl)}`;
+        qrCodeImg.src = qrApiUrl;
+        qrCodeContainer.style.display = 'block';
+      }
+    }
+
+    function generateBillPDF() {
+      if (currentAmount < 1) {
+        alert("Please initiate a donation first to generate a receipt.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight(); // eslint-disable-line
+      const margin = 20;
+
+      // Date and Time
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      const formattedTime = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+      
+      // Pseudo Transaction ID
+      const transactionId = "DON-" + Date.now().toString().slice(-8);
+
+      // --- PDF Content ---
+
+      // Logo (Optional - using the base64 encoded favicon)
+      if (LOGO_BASE64) {
+        try {
+            doc.addImage(LOGO_BASE64, 'PNG', margin, margin, 15, 15);
+        } catch (e) {
+            console.error("Error adding logo to PDF:", e);
+        }
+      }
+
+      // Header
+      doc.setFontSize(22);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(40, 58, 90); // Dark Blue
+      doc.text("Donation Receipt", pageWidth / 2, margin + 10, { align: 'center' });
+
+      // Line Separator
+      doc.setDrawColor(200, 200, 200); // Light Gray
+      doc.line(margin, margin + 20, pageWidth - margin, margin + 20);
+
+      // Details Section
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(50, 50, 50); // Dark Gray
+      
+      let yPos = margin + 35;
+      const lineHeight = 8;
+
+      doc.text("Date:", margin, yPos);
+      doc.text(`${formattedDate}, ${formattedTime}`, margin + 40, yPos);
+      yPos += lineHeight;
+
+      doc.text("Transaction ID:", margin, yPos);
+      doc.text(transactionId, margin + 40, yPos);
+      yPos += lineHeight;
+      
+      doc.text("Paid To:", margin, yPos);
+      doc.setFont("helvetica", "bold");
+      doc.text(PAYEE_NAME, margin + 40, yPos);
+      yPos += lineHeight;
+      doc.setFont("helvetica", "normal");
+      doc.text(`(UPI: ${UPI_ID})`, margin + 40, yPos);
+      yPos += lineHeight + 5; // Extra space
+
+      doc.text("Amount:", margin, yPos);
+      doc.setFont("helvetica", "bold");
+      doc.text(`₹ ${currentAmount.toFixed(2)}`, margin + 40, yPos);
+      yPos += lineHeight;
+      doc.setFont("helvetica", "normal");
+
+      doc.text("Purpose:", margin, yPos);
+      doc.text("Donation", margin + 40, yPos);
+      yPos += lineHeight * 2;
+
+      // Line Separator
+      doc.line(margin, yPos, pageWidth - margin, yPos);
+      yPos += lineHeight;
+
+      // Thank You & Disclaimer
+      doc.setFontSize(11);
+      doc.setTextColor(30, 100, 30); // Greenish
+      doc.text("Thank you for your generous contribution!", pageWidth / 2, yPos, { align: 'center' });
+      yPos += lineHeight;
+
+      doc.setFontSize(9);
+      doc.setTextColor(150, 150, 150); // Lighter Gray
+      doc.text("This is a self-generated receipt for your records.", pageWidth / 2, yPos, { align: 'center' });
+      yPos += lineHeight / 1.5;
+      doc.text("Payment confirmation is subject to processing by your bank and UPI network.", pageWidth / 2, yPos, { align: 'center' });
+      yPos += lineHeight * 2;
+
+      // Footer
+      doc.setFontSize(8);
+      doc.setTextColor(180, 180, 180);
+      doc.text(`Receipt generated by Suhaim Soft Donation Portal on ${formattedDate}`, pageWidth / 2, pageHeight - margin + 10, { align: 'center' });
+      
+      // Save PDF
+      doc.save(`Donation_Receipt_₹${currentAmount}_${transactionId}.pdf`);
+    }
+
+    function resetForm() {
+        document.getElementById('donation-form').style.display = 'block';
+        document.getElementById('payment-info-section').style.display = 'none';
+        document.getElementById('amount').value = '';
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('qr-code-container').style.display = 'none'; // Hide QR again
+        currentAmount = 0;
+        document.getElementById('amount').focus();
+    }
+
+    // Set initial focus
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('amount').focus();
+    });
+
+  </script>
+</body>
+</html>

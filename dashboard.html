@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quran Recital Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="../quran/images/man.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Amiri', 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #e8f0f2, #f5f8fa);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #1b263b;
+      transition: background 0.3s, color 0.3s;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    body.dark {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    body.dark .sidebar {
+      background: linear-gradient(135deg, #0b3d3a, #141c22);
+      color: #eee;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.8);
+    }
+    body.dark .sidebar a {
+      color: #ddd;
+    }
+    body.dark .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #f8e1b0;
+    }
+    body.dark .main {
+      background: #1a1a1a;
+    }
+    body.dark .card {
+      background: #222;
+      border-color: #333;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    body.dark .profile {
+      background: linear-gradient(to right, #222, #111);
+    }
+    body.dark .highlight {
+      color: #f8e1b0;
+    }
+    body.dark .highlight:hover {
+      color: #f9d342;
+    }
+    body.dark .section-title {
+      color: #f9d342;
+    }
+    body.dark .mobile-tabs {
+      background: #0b3d3a;
+    }
+    body.dark .mobile-tabs a {
+      color: #ddd;
+    }
+    body.dark .mobile-tabs a:hover, body.dark .mobile-tabs a.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: #f8e1b0;
+    }
+    body.dark .date-card {
+      background: #222;
+      border-color: #333;
+    }
+    body.dark .date-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+    body.dark .date-display {
+      color: #f9d342;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(135deg, #2c786c, #1b263b);
+      color: white;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+    .sidebar h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Amiri Quran', serif;
+      letter-spacing: 1px;
+    }
+    .sidebar a {
+      color: white;
+      margin: 0.6rem 0;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+      color: #f8e1b0;
+    }
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    .card {
+      background: #ffffff;
+      padding: 1.8rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1.5rem;
+      border: 1px solid #e0e7e9;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: linear-gradient(to right, #f5f8fa, #ffffff);
+      padding: 1.5rem;
+      border-radius: 12px;
+      flex-wrap: wrap;
+      transition: background 0.3s;
+    }
+    .profile img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #2c786c;
+    }
+    .profile h2 {
+      font-size: 1.4rem;
+      color: #1b263b;
+    }
+    .profile p {
+      color: #666;
+    }
+    .section-title {
+      margin-bottom: 1rem;
+      color: #2c786c;
+      font-weight: bold;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #2c786c;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .highlight:hover {
+      color: #1b263b;
+      text-decoration: underline;
+    }
+    .date-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1rem;
+      border: 1px solid #e0e7e9;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .date-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    .date-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, #2c786c, transparent);
+      z-index: 0;
+    }
+    .date-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .date-display {
+      font-size: 1.6rem;
+      color: #2c786c;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .date-info {
+      font-size: 1rem;
+      color: #666;
+    }
+    .mobile-tabs {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: #2c786c;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      overflow-x: auto;
+      white-space: nowrap;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .mobile-tabs a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex: 1;
+      padding: 8px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .mobile-tabs a span {
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .mobile-tabs a:hover, .mobile-tabs a.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #f8e1b0;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        display: none;
+      }
+      .main {
+        padding: 1rem;
+        margin-bottom: 60px;
+      }
+      .mobile-tabs {
+        display: flex;
+      }
+      .profile img {
+        width: 70px;
+        height: 70px;
+      }
+      .profile h2 {
+        font-size: 1.2rem;
+      }
+      .section-title {
+        font-size: 1.2rem;
+      }
+      .date-card {
+        padding: 1rem;
+      }
+      .date-display {
+        font-size: 1.4rem;
+      }
+      .date-info {
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .main {
+        padding: 0.5rem;
+      }
+      .card {
+        padding: 1rem;
+      }
+      .profile img {
+        width: 60px;
+        height: 60px;
+      }
+      .profile h2 {
+        font-size: 1rem;
+      }
+      .section-title {
+        font-size: 1rem;
+      }
+      .date-card {
+        padding: 0.8rem;
+      }
+      .date-display {
+        font-size: 1.2rem;
+      }
+      .date-info {
+        font-size: 0.8rem;
+      }
+      .mobile-tabs a {
+        font-size: 14px;
+        padding: 6px;
+      }
+      .mobile-tabs a span {
+        font-size: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bellSound" src="audio/notification-2-269292.mp3" preload="auto"></audio>
+  <div class="container">
+    <div class="sidebar">
+      <h2><i class="fas fa-book-open"></i> Quran Dashboard</h2>
+      <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+      <a href="adhkar.html"><i class="fas fa-praying-hands"></i> Adhkar</a>
+      <a href="hifz.html"><i class="fas fa-book-reader"></i> Hifz</a>
+      <a href="ptime.html"><i class="fas fa-clock"></i> Prayer Times</a>
+      <a href="qibla.html"><i class="fas fa-compass"></i> Qibla</a>
+      <a href="surahs.html"><i class="fas fa-book-quran"></i> Surahs</a>
+      <a href="tasbih.html"><i class="fas fa-praying-hands"></i> Tasbih</a>
+      <a href="thafser.html"><i class="fas fa-book-open"></i> Tafseer</a>
+      <a href="donate.html" style="color: #f9d342;"><i class="fas fa-donate"></i> Donate</a>
+      <a href="#" id="themeToggleBtn"><i class="fas fa-adjust"></i> Toggle Theme</a>
+      <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <div class="main">
+      <div class="card profile">
+        <img id="profilePic" src="images/default-profile.png" alt="Profile" />
+        <div>
+          <h2 id="docName">Teacher Name</h2>
+          <p id="docNumber">Phone: N/A</p>
+          <p id="docUsername">Username: N/A</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="section-title"><i class="fas fa-calendar-alt"></i> Date</h3>
+        <div class="date-card">
+          <p class="date-display">Saturday, May 31, 2025</p>
+         
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="section-title"><i class="fas fa-book-quran"></i> Recital Notes</h3>
+        <a href="surahs.html" class="highlight"><i class="fas fa-eye"></i> View Surahs</a>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-tabs" role="navigation" aria-label="Mobile Navigation Tabs">
+    <a href="dashboard.html" class="active" aria-current="page" title="Dashboard"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+    <a href="adhkar.html" title="Adhkar"><i class="fas fa-praying-hands"></i><span>Adhkar</span></a>
+    <a href="hifz.html" title="Hifz"><i class="fas fa-book-reader"></i><span>Hifz</span></a>
+    <a href="ptime.html" title="Prayer Times"><i class="fas fa-clock"></i><span>Prayer</span></a>
+    <a href="qibla.html" title="Qibla"><i class="fas fa-compass"></i><span>Qibla</span></a>
+    <a href="tasbih.html" title="Tasbih"><i class="fas fa-praying-hands"></i><span>Tasbih</span></a>
+    <a href="thafser.html" title="Tafseer"><i class="fas fa-book-open"></i><span>Tafseer</span></a>
+    <a href="donate.html" title="Donate"><i class="fas fa-donate"></i><span>Donate</span></a>
+    <a href="#" id="themeToggleMobile" title="Toggle Theme"><i class="fas fa-adjust"></i><span>Theme</span></a>
+    <a href="index.html" title="Logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    <a href="surahs.html"><i class="fas fa-book-quran"></i> Surahs</a>
+  </nav>
+  <script>
+    // Load user data from localStorage
+    const data = JSON.parse(localStorage.getItem("doctorData")) || {};
+    document.getElementById("profilePic").src = data.photo || "images/default-profile.png";
+    document.getElementById("docName").textContent = data.name || "Teacher Name";
+    document.getElementById("docNumber").textContent = "Phone: " + (data.number || "N/A");
+    document.getElementById("docUsername").textContent = "Username: " + (data.username || "N/A");
+
+    // Initialize theme
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+    }
+
+    // Toggle theme functionality
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeToggleMobile = document.getElementById("themeToggleMobile");
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    }
+    themeToggleBtn.addEventListener("click", toggleTheme);
+    themeToggleMobile.addEventListener("click", toggleTheme);
+
+    // Set active state for navigation
+    const navLinks = document.querySelectorAll('.sidebar a, .mobile-tabs a');
+    navLinks.forEach(link => {
+      if (link.href === window.location.href) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prayer Times</title>
+    <link rel="icon" href="../quran/images/man.png">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      color: #0288d1;
+      margin-bottom: 0.3em;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 5px;
+      border-radius: 6px;
+      border: 1px solid #0288d1;
+      color: #01579b;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    select:hover, button:hover {
+      box-shadow: 0 0 8px #0288d1;
+    }
+    button {
+      background-color: #0288d1;
+      color: white;
+      border: none;
+    }
+    #date {
+      font-weight: 600;
+      margin: 20px 0;
+      text-shadow: 0 0 6px #0288d1;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(2, 136, 209, 0.15);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      font-size: 1.1rem;
+      background: white;
+      color: #01579b;
+      font-weight: 600;
+      user-select: none;
+      text-shadow: 0 0 3px rgba(2, 136, 209, 0.2);
+    }
+    th {
+      background-color: #0288d1;
+      color: white;
+      font-weight: 700;
+      text-shadow: 0 0 10px #045a8d;
+    }
+    td {
+      background-color: #e3f2fd;
+    }
+    #error {
+      color: #d32f2f;
+      font-weight: 600;
+      margin-top: 20px;
+      text-shadow: 0 0 4px #d32f2f;
+    }
+    #mapFrame {
+      width: 100%;
+      max-width: 600px;
+      height: 350px;
+      border: none;
+      border-radius: 15px;
+      margin: 30px auto;
+      display: block;
+      box-shadow:
+        0 15px 30px rgba(2, 136, 209, 0.2),
+        inset 0 -5px 15px rgba(2, 136, 209, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Prayer Times Worldwide</h1>
+
+  <div>
+    <label for="countrySelect">Country: </label>
+    <select id="countrySelect">
+      <option value="WORLD">🌍 World Map View</option>
+      <option value="">-- Select Country --</option>
+      <option value="AE">United Arab Emirates</option>
+      <option value="GB">United Kingdom</option>
+      <option value="IN">India</option>
+      <option value="PK">Pakistan</option>
+      <option value="SA">Saudi Arabia</option>
+      <option value="US">United States</option>
+    </select>
+
+    <label for="citySelect">City: </label>
+    <select id="citySelect">
+      <option value="">-- Select City --</option>
+    </select>
+
+    <button id="loadBtn">Load Prayer Times</button>
+  </div>
+
+  <p id="date">Loading...</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Prayer</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody id="prayerTimes"></tbody>
+  </table>
+
+  <p id="error"></p>
+
+  <iframe
+    id="mapFrame"
+    src="https://maps.google.com/maps?q=Kochi&output=embed"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+
+  <script>
+    const countrySelect = document.getElementById('countrySelect');
+    const citySelect = document.getElementById('citySelect');
+    const prayerTimesBody = document.getElementById('prayerTimes');
+    const dateElem = document.getElementById('date');
+    const errorElem = document.getElementById('error');
+    const mapFrame = document.getElementById('mapFrame');
+    const loadBtn = document.getElementById('loadBtn');
+
+    const method = 2;
+
+    const countryCityMap = {
+      IN: ['Kochi', 'Malappuram', 'Thiruvananthapuram', 'Kozhikode', 'Thrissur'],
+      SA: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam'],
+      AE: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'Ajman'],
+      PK: ['Karachi', 'Lahore', 'Islamabad', 'Faisalabad', 'Multan'],
+      US: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'],
+      GB: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow']
+    };
+
+    countrySelect.addEventListener('change', () => {
+      const country = countrySelect.value;
+      citySelect.innerHTML = '<option value="">-- Select City --</option>';
+      if (countryCityMap[country]) {
+        countryCityMap[country].forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
+        });
+      }
+    });
+
+    loadBtn.addEventListener('click', async () => {
+      const country = countrySelect.value;
+      const city = citySelect.value;
+
+      if (country === "WORLD") {
+        errorElem.textContent = '';
+        dateElem.textContent = "Showing Global Map View";
+        prayerTimesBody.innerHTML = '';
+        mapFrame.src = "https://maps.google.com/maps?q=0,0&z=1&output=embed";
+        return;
+      }
+
+      if (!country || !city) {
+        errorElem.textContent = 'Please select both country and city.';
+        return;
+      }
+
+      errorElem.textContent = 'Loading...';
+      dateElem.textContent = '';
+      prayerTimesBody.innerHTML = '';
+
+      try {
+        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=${method}`);
+        const data = await response.json();
+
+        if (data.code !== 200) throw new Error(data.status);
+
+        const timings = data.data.timings;
+        const date = data.data.date.readable;
+        dateElem.textContent = `Prayer Times for ${city} on ${date}`;
+
+        const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        prayers.forEach(prayer => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${prayer}</td><td>${timings[prayer]}</td>`;
+          prayerTimesBody.appendChild(tr);
+        });
+
+        errorElem.textContent = '';
+        mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(city)}&output=embed`;
+      } catch (err) {
+        errorElem.textContent = 'Failed to load prayer times. Please try again.';
+      }
+    });
+
+    window.onload = () => {
+      dateElem.textContent = 'Please select a country and city to view prayer times.';
+    };
+  </script>
+</body>
+</html>
