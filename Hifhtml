@@ -1,361 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Quran Surah Player - Easy Hifz Mode</title>
-  <link rel="icon" type="image/png" href="/quran/images/man.png">
-  <link rel="shortcut icon" type="image/png" href="/quran/images/man.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quran App Login - Secure access to your spiritual journey.">
+    <title>Quran App - Login</title>
+    <link rel="icon" href="images/man.png" type="image/png" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      margin: 0;
-      padding: 20px;
-      color: #ecf0f1;
-      overflow-x: hidden;
-    }
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2.2rem;
-      color: #f1c40f;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
+        body {
+            background: #4CAF50; /* Standard green background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px rgba(241, 196, 15, 0.7); }
-      to { text-shadow: 0 0 20px rgba(241, 196, 15, 1); }
-    }
+        .form-box {
+            background: rgba(255, 255, 255, 0.95); /* White with slight transparency */
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 350px;
+            position: relative;
+        }
 
-    .player-container {
-      width: 90%;
-      max-width: 700px;
-      margin: auto;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      padding: 30px;
-      box-sizing: border-box;
-      position: relative;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+        .exit-button {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #FFC107; /* Standard yellow */
+            color: #333333; /* Dark gray for contrast */
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin: 15px 0 8px;
-      color: #f1c40f;
-    }
+        .exit-button:hover {
+            background: #FFB300; /* Darker yellow on hover */
+            transform: scale(1.1);
+        }
 
-    .search-container {
-      position: relative;
-      width: 100%;
-    }
+        h2 {
+            color: #333333; /* Standard dark gray */
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
 
-    .search-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #ecf0f1;
-      font-size: 1.2rem;
-      pointer-events: none;
-    }
+        .input-group {
+            position: relative;
+            margin: 15px 0;
+        }
 
-    input[type="text"], select, input[type="number"] {
-      width: 100%;
-      padding: 12px 12px 12px 40px;
-      border-radius: 25px;
-      border: none;
-      background: rgba(255, 255, 255, 0.15);
-      color: #ecf0f1;
-      font-size: 1rem;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
+        input {
+            width: 100%;
+            padding: 10px 35px 10px 10px;
+            border: 2px solid #CCCCCC; /* Standard light gray */
+            border-radius: 8px;
+            background: #FFFFFF; /* White background */
+            color: #333333; /* Dark gray text */
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
 
-    input[type="text"]::placeholder {
-      color: rgba(236, 240, 241, 0.6);
-    }
+        input:focus {
+            outline: none;
+            border-color: #4CAF50; /* Green on focus */
+        }
 
-    input[type="text"]:focus, input[type="number"]:focus {
-      background: rgba(255, 255, 255, 0.25);
-      outline: none;
-      box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
-    }
+        input::placeholder {
+            color: #777777; /* Lighter gray for placeholder */
+        }
 
-    button {
-      background: linear-gradient(45deg, #f1c40f, #e67e22);
-      color: #2c3e50;
-      border: none;
-      padding: 14px;
-      border-radius: 25px;
-      font-size: 1rem;
-      width: 100%;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
+        label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #777777; /* Lighter gray */
+            font-size: 15px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: #FFFFFF;
+            padding: 0 5px;
+        }
 
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(241, 196, 15, 0.5);
-    }
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 8px;
+            font-size: 12px;
+            color: #4CAF50; /* Green for active label */
+        }
 
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4CAF50; /* Green toggle */
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .btn-row button {
-      flex: 1;
-      padding: 12px;
-      font-size: 1rem;
-      background: linear-gradient(45deg, #e74c3c, #c0392b);
-      border-radius: 25px;
-      color: #ecf0f1;
-    }
+        .error-message {
+            color: #FF5252; /* Standard red for errors */
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
 
-    .btn-row button:hover {
-      background: linear-gradient(45deg, #c0392b, #922b21);
-      transform: translateY(-3px);
-    }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background: #4CAF50; /* Standard green */
+            color: #FFFFFF; /* White text */
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-    #surahList {
-      max-height: 200px;
-      overflow-y: auto;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 0;
-      list-style: none;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+        button:hover {
+            background: #45A049; /* Slightly darker green on hover */
+        }
 
-    #surahList li {
-      padding: 12px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ecf0f1;
-      transition: background 0.3s ease;
-    }
+        @media (max-width: 480px) {
+            .form-box {
+                margin: 15px;
+                padding: 1.5rem;
+            }
 
-    #surahList li:last-child {
-      border-bottom: none;
-    }
+            .exit-button {
+                top: -12px;
+                right: -12px;
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
 
-    #surahList li:hover {
-      background: rgba(241, 196, 15, 0.3);
-    }
+            h2 {
+                font-size: 20px;
+            }
 
-    .ayah-display {
-      margin-top: 20px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 25px;
-      border-radius: 15px;
-      min-height: 150px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .ayah-text {
-      font-size: 1.6rem;
-      text-align: center;
-      margin-bottom: 20px;
-      color: #ecf0f1;
-    }
-
-    audio {
-      display: block;
-      width: 100%;
-      margin-top: 10px;
-      filter: sepia(20%) hue-rotate(180deg);
-    }
-
-    audio::-webkit-media-controls-panel {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: rgba(236, 240, 241, 0.7);
-    }
-
-    @media (max-width: 480px) {
-      .player-container {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 1.6rem;
-      }
-
-      .ayah-text {
-        font-size: 1.3rem;
-      }
-    }
-  </style>
+            input, button {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <h1>🕋 Quran Surah Player (Hifz Mode)</h1>
-
-  <div class="player-container">
-    <label for="surahSearch">Search Surah:</label>
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="surahSearch" placeholder="Search Surah by name or number..." autocomplete="off" />
+    <div class="form-box">
+        <button class="exit-button" onclick="window.location.href='/'" title="Back to Home" aria-label="Back to Home">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>Login to Quran App</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder=" " required aria-label="Username">
+                <label for="username">Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" " required aria-label="Password">
+                <label for="password">Password</label>
+                <i class="fas fa-eye password-toggle" id="passwordToggle" aria-label="Toggle password visibility"></i>
+            </div>
+            <p class="error-message" id="loginError">Invalid username or password.</p>
+            <button type="submit">Login</button>
+        </form>
     </div>
 
-    <ul id="surahList">
-      <li>Loading Surahs...</li>
-    </ul>
-
-    <label for="repeatCount">Repeat each Ayah:</label>
-    <input type="number" id="repeatCount" min="1" value="2" />
-
-    <label for="delaySeconds">Delay (seconds) between repeats:</label>
-    <input type="number" id="delaySeconds" min="0" value="2" />
-
-    <button onclick="playSurah()">▶️ Start Playing & Reading</button>
-
-    <div class="btn-row">
-      <button onclick="exitToDashboard()">🚪 Exit</button>
-    </div>
-
-    <div class="ayah-display" id="ayahDisplay">
-      <p class="ayah-text">📖 Ayahs will appear here...</p>
-    </div>
-  </div>
-
-  <div class="footer">© knowquran.in</div>
-
-  <script>
-    const apiBase = 'https://api.alquran.cloud/v1';
-    const surahSearch = document.getElementById('surahSearch');
-    const surahList = document.getElementById('surahList');
-    const display = document.getElementById('ayahDisplay');
-    const repeatInput = document.getElementById('repeatCount');
-    const delayInput = document.getElementById('delaySeconds');
-
-    let surahs = [];
-    let selectedSurahNumber = null;
-    let selectedSurahName = '';
-
-    fetch(`${apiBase}/surah`)
-      .then(res => res.json())
-      .then(data => {
-        surahs = data.data;
-        renderSurahList(surahs);
-      })
-      .catch(() => {
-        surahList.innerHTML = '<li>Failed to load Surahs.</li>';
-      });
-
-    function renderSurahList(list) {
-      if (!list.length) {
-        surahList.innerHTML = '<li>No Surahs found.</li>';
-        return;
-      }
-      surahList.innerHTML = '';
-      list.forEach(surah => {
-        const li = document.createElement('li');
-        li.textContent = `${surah.number}. ${surah.englishName} (${surah.name})`;
-        li.onclick = () => {
-          selectedSurahNumber = surah.number;
-          selectedSurahName = surah.englishName;
-          surahSearch.value = li.textContent;
-          surahList.style.display = 'none';
-        };
-        surahList.appendChild(li);
-      });
-    }
-
-    surahSearch.addEventListener('input', () => {
-      const query = surahSearch.value.toLowerCase();
-      const filtered = surahs.filter(s =>
-        s.englishName.toLowerCase().includes(query) ||
-        s.name.toLowerCase().includes(query) ||
-        s.number.toString() === query
-      );
-      surahList.style.display = 'block';
-      renderSurahList(filtered);
-    });
-
-    document.addEventListener('click', e => {
-      if (!surahSearch.contains(e.target) && !surahList.contains(e.target)) {
-        surahList.style.display = 'none';
-      }
-    });
-
-    function playSurah() {
-      let surahNum = selectedSurahNumber;
-      if (!surahNum) {
-        const match = surahSearch.value.match(/^(\d+)/);
-        if (match) surahNum = match[1];
-      }
-      if (!surahNum) {
-        alert('📌 Please select a valid Surah.');
-        return;
-      }
-
-      const repeatCount = parseInt(repeatInput.value) || 1;
-      const delaySeconds = parseInt(delayInput.value) || 0;
-
-      display.innerHTML = '<p class="ayah-text">⏳ Loading Ayahs...</p>';
-
-      fetch(`${apiBase}/surah/${surahNum}/ar.alafasy`)
-        .then(res => res.json())
-        .then(data => {
-          const ayahs = data.data.ayahs;
-          let i = 0, repeat = 0;
-          const readNextAyah = () => {
-            if (i < ayahs.length) {
-              display.innerHTML = `
-                <p class="ayah-text"><strong>Ayah ${ayahs[i].numberInSurah}</strong><br>${ayahs[i].text}</p>
-                <audio id="ayahAudio" controls autoplay>
-                  <source src="${ayahs[i].audio}" type="audio/mp3">
-                </audio>`;
-              const audio = document.getElementById('ayahAudio');
-              audio.onended = () => {
-                repeat++;
-                if (repeat < repeatCount) {
-                  setTimeout(() => audio.play(), delaySeconds * 1000);
-                } else {
-                  repeat = 0;
-                  i++;
-                  setTimeout(readNextAyah, delaySeconds * 1000);
-                }
-              };
-            } else {
-              display.innerHTML = `<p class="ayah-text">✅ Completed Surah ${data.data.englishName}.</p>`;
-            }
-          };
-          readNextAyah();
+    <script>
+        // Password Toggle
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('passwordToggle');
+        passwordToggle.addEventListener('click', () => {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            passwordToggle.classList.toggle('fa-eye');
+            passwordToggle.classList.toggle('fa-eye-slash');
         });
-    }
 
-    function exitToDashboard() {
-      window.location.href = 'dashboard.html';
-    }
-  </script>
+        // Login Logic
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('loginError');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            // Reset border colors
+            usernameInput.style.borderColor = '#CCCCCC';
+            passwordInput.style.borderColor = '#CCCCCC';
+
+            if (username === 'user12' && password === '123') {
+                errorMsg.style.display = 'none';
+                window.location.href = 'dashboard.html';
+            } else {
+                errorMsg.style.display = 'block';
+                usernameInput.style.borderColor = '#FF5252';
+                passwordInput.style.borderColor = '#FF5252';
+            }
+        });
+    </script>
 </body>
 </html>
