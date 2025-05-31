@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Tasbih Counter</title>
+     <link rel="icon" href="images/man.png" type="image/png" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #f5f5fa;
+      padding: 40px;
+      border-radius: 30px;
+      box-shadow: 10px 10px 30px rgba(0,0,0,0.1), -10px -10px 30px rgba(255,255,255,0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .counter-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #e6e6ef, #ffffff);
+      box-shadow: inset 10px 10px 25px #d4d4dd, inset -10px -10px 25px #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      font-weight: bold;
+      color: #5e35b1;
+      transition: transform 0.2s ease;
+    }
+
+    .counter-circle.animate {
+      animation: pop 0.3s ease;
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 16px 32px;
+      font-size: 20px;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.15), -4px -4px 12px rgba(255,255,255,0.3);
+    }
+
+    .count-btn {
+      background: linear-gradient(to right, #8e2de2, #4a00e0);
+    }
+
+    .reset-btn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 6px 6px 16px rgba(0,0,0,0.2), -6px -6px 16px rgba(255,255,255,0.4);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .label {
+      font-size: 18px;
+      color: #555;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="counter-circle" id="counter">0</div>
+    <div class="buttons">
+      <button class="count-btn" onclick="increment()">Tap</button>
+      <button class="reset-btn" onclick="reset()">Reset</button>
+    </div>
+    <div class="label">Max: 33 counts</div>
+  </div>
+
+  <script>
+    const counter = document.getElementById('counter');
+    let count = 0;
+
+    function increment() {
+      if (count < 33) {
+        count++;
+        counter.textContent = count;
+        counter.classList.remove('animate');
+        void counter.offsetWidth; // re-trigger animation
+        counter.classList.add('animate');
+      }
+    }
+
+    function reset() {
+      count = 0;
+      counter.textContent = count;
+      counter.classList.remove('animate');
+      void counter.offsetWidth;
+      counter.classList.add('animate');
+    }
+  </script>
+
+</body>
+</html>
